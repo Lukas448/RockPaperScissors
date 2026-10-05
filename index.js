@@ -1,5 +1,6 @@
 let humanScore = 0;
 let computerScore = 0;
+let playedRounds = 0;
 
 //function to generate random whole number
 
@@ -21,16 +22,11 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    let humanInput = prompt(`Choose: Rock, Paper, Scissors`);
-    console.log(humanInput.toLowerCase());
-    return humanInput.toLowerCase();
-}
-//let choice = getHumanChoice();
-
 function playRound(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
-        console.log(`It's a tie! Both chose ${humanChoice}.`);
+        document.getElementById("result").innerHTML = `It's a tie! Both chose ${humanChoice}.`;
+        playedRounds++;
+        updateScore();
         return;
     }
 
@@ -39,46 +35,57 @@ function playRound(humanChoice, computerChoice) {
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")
     ) {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+        document.getElementById("result").innerHTML = `You win! ${humanChoice} beats ${computerChoice}.`;
         humanScore++;
     } else {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
+        document.getElementById("result").innerHTML = `You lose! ${computerChoice} beats ${humanChoice}.`;
         computerScore++;
     }
+
+    if (humanScore == 5) {
+        document.getElementById("gameWin").innerHTML = `Human won the game`;
+        document.getElementById("rock").disabled = true;
+        document.getElementById("paper").disabled = true;
+        document.getElementById("scissors").disabled = true;
+    } else if (computerScore == 5) {
+        document.getElementById("gameWin").innerHTML = `Computer won the game`;
+        document.getElementById("rock").disabled = true;
+        document.getElementById("paper").disabled = true;
+        document.getElementById("scissors").disabled = true;
+    }
+    playedRounds++;
+    updateScore();
+} 
+
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    playedRounds = 0;
+
+    document.getElementById("result").innerHTML = "Click Your Choice To Play";
+    document.getElementById("gameWin").innerHTML = "";
+
+    document.getElementById("rock").disabled = false;
+    document.getElementById("paper").disabled = false;
+    document.getElementById("scissors").disabled = false;
+
+    updateScore();
 }
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
-    }
+document.getElementById("reset").addEventListener("click", resetGame);
 
-    console.log(`Final score — Human: ${humanScore}, Computer: ${computerScore}`);
+document.getElementById("rock").addEventListener("click", function() {
+    playRound("rock", getComputerChoice());
+    });
+document.getElementById("paper").addEventListener("click", function() {
+    playRound("paper", getComputerChoice());
+    });
+document.getElementById("scissors").addEventListener("click", function() {
+    playRound("scissors", getComputerChoice());
+    });
 
-    if (humanScore > computerScore) {
-        console.log("You won the game!");
-    } else if (computerScore > humanScore) {
-        console.log("Computer won the game!");
-    } else {
-        console.log("The game is a tie!");
-    }
+function updateScore() {
+    document.getElementById("humanScore").innerHTML = `Human: ${humanScore}`;
+    document.getElementById("computerScore").innerHTML = `Computer: ${computerScore}`;
+    document.getElementById("playedRounds").innerHTML = `Played Rounds: ${playedRounds}`;
 }
-
-playGame();
-
-/*let humanChoice = getHumanChoice();
-let computerChoice = getComputerChoice();
-playRound(humanChoice, computerChoice);
-
-console.log(`Human score: ${humanScore}`);
-console.log(`Computer score: ${computerScore}`);*/
-
-/*for (let i = 0; i < arr.length; i++) {
-      if (arr[i] >= a && arr[i] <= b) {
-      } else {
-        arr.splice(i , 1);
-        i--;
-      }
-    }
-  }/*

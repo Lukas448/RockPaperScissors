@@ -1,0 +1,16 @@
+body {
+    /*display: flex;*/
+    background: #eee;
+    font-family: sans-serif;
+}
+
+#buttonContainer {
+    text-align: center;
+    background: #e3f4ff;
+    padding: 8px;
+    margin: 8px;
+}
+
+#reset {
+    margin-top: 8px;
+}
